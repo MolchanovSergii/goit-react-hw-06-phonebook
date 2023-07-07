@@ -18,12 +18,8 @@ const filterSlice = createSlice({
   name: 'filter',
   initialState: '',
   reducers: {
-    renderFilter(state, action) {
-      const normalized = action.payload.toLowerCase();
-
-      return state.filter(contact =>
-        contact.name.toLowerCase().includes(normalized)
-      );
+    renderFilter(action) {
+      return action.payload;
     },
   },
 });

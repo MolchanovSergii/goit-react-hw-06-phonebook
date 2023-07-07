@@ -7,12 +7,17 @@ import { StyledContactList, StyledContactItem } from './ContactList.styled';
 
 const ContactList = () => {
   const contactsList = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
+
+  const visibleContacts = contactsList.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <>
       <StyledContactList>
-        {contactsList.map(({ id, name, number }) => (
+        {visibleContacts.map(({ id, name, number }) => (
           <StyledContactItem key={id}>
             {name} : {number}
             <StyledButton onClick={() => dispatch(deleteContact(id))}>
