@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/store';
+
 import { StyledForm, StyledInput, StyledButton } from './ContactForms.styled';
 
-const ContactForms = ({ onSubmit }) => {
+const ContactForms = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  // const handleInputChangeName = event => {
-  //   setName(event.target.value);
-  // };
+  const contactsList = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
 
-  // const handleInputChangeNumber = event => {
-  //   setNumber(event.target.value);
-  // };
-  // для замены onChange на каждый стейт, можно использовать switchб не забыть
-  // переменные свитч - это строка!!!
   const uniqueId = nanoid();
 
   const handleChange = event => {
@@ -35,7 +32,19 @@ const ContactForms = ({ onSubmit }) => {
 
   const handleSubmitForm = event => {
     event.preventDefault();
-    onSubmit({ name, number });
+
+    const isDuplicateName = contactsList.some(contacts =>
+      contacts.name.toLowerCase().includes(name.toLowerCase())
+    );
+
+    if (isDuplicateName) {
+      alert(`${name} is alredy to contacts`);
+      return;
+    }
+
+    const contact = { id: nanoid(), name, number };
+
+    dispatch(addContact(contact));
     reset();
   };
 

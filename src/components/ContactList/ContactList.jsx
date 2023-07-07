@@ -1,16 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'redux/store';
+
 import { StyledButton } from '../ContactForms/ContactForms.styled';
 import { StyledContactList, StyledContactItem } from './ContactList.styled';
 
-const ContactList = ({ dataUsers, deleteContact }) => {
+const ContactList = () => {
+  const contactsList = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
+
   return (
     <>
       <StyledContactList>
-        {dataUsers.map(dataUser => (
-          <StyledContactItem key={dataUser.id}>
-            {dataUser.name} : {dataUser.number}
-            <StyledButton onClick={() => deleteContact(dataUser.id)}>
+        {contactsList.map(({ id, name, number }) => (
+          <StyledContactItem key={id}>
+            {name} : {number}
+            <StyledButton onClick={() => dispatch(deleteContact(id))}>
               Delete
             </StyledButton>
           </StyledContactItem>
@@ -21,14 +26,3 @@ const ContactList = ({ dataUsers, deleteContact }) => {
 };
 
 export default ContactList;
-
-ContactList.propTypes = {
-  dataUsers: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  deleteContact: PropTypes.func.isRequired,
-};

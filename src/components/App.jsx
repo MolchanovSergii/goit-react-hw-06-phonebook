@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
 import { StyledAppWrapper } from 'App.styled';
 import ContactForms from './ContactForms/ContactForms';
 import ContactList from './ContactList/ContactList';
@@ -14,23 +13,9 @@ const App = () => {
 
   const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    window.localStorage.setItem(KEY_CONTACTS, JSON.stringify(contacts));
-  }, [contacts]);
-
-  const formSubmitData = data => {
-    const { name } = data;
-    const isDuplicateName = contacts.some(contacts =>
-      contacts.name.toLowerCase().includes(name.toLowerCase())
-    );
-
-    if (isDuplicateName) {
-      alert(`${name} is alredy to contacts`);
-      return;
-    }
-
-    setContacts(prevContacts => [...prevContacts, { ...data, id: nanoid() }]);
-  };
+  // useEffect(() => {
+  //   window.localStorage.setItem(KEY_CONTACTS, JSON.stringify(contacts));
+  // }, [contacts]);
 
   const changeFilterData = event => {
     const { value } = event.currentTarget;
@@ -45,23 +30,14 @@ const App = () => {
     );
   };
 
-  const deleteContact = deleteContactID => {
-    setContacts(prevContacts =>
-      prevContacts.filter(contact => contact.id !== deleteContactID)
-    );
-  };
-
   return (
     <>
       <StyledAppWrapper>
         <h1>Phonebook</h1>
-        <ContactForms onSubmit={formSubmitData} />
+        <ContactForms />
         <h2>Contacts</h2>
         <Filter value={filter} onChange={changeFilterData} />
-        <ContactList
-          dataUsers={renderFilterContacts()}
-          deleteContact={deleteContact}
-        />
+        <ContactList dataUsers={renderFilterContacts()} />
       </StyledAppWrapper>
     </>
   );
