@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { renderFilter } from 'redux/store';
+import { renderFilter } from 'redux/filterSlice';
 
 import { StyledAppWrapper } from 'App.styled';
 import ContactForms from './ContactForms/ContactForms';

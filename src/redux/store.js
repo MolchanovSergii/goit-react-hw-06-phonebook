@@ -1,28 +1,6 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
-
-const contactsSlice = createSlice({
-  name: 'contacts',
-  initialState: [],
-  reducers: {
-    addContact(state, action) {
-      state.push(action.payload);
-    },
-    deleteContact(state, action) {
-      const id = action.payload;
-      return state.filter(contact => contact.id !== id);
-    },
-  },
-});
-
-const filterSlice = createSlice({
-  name: 'filter',
-  initialState: '',
-  reducers: {
-    renderFilter(action) {
-      return action.payload;
-    },
-  },
-});
+import { configureStore } from '@reduxjs/toolkit';
+import { contactsSlice } from './contactsSlice';
+import { filterSlice } from './filterSlice';
 
 export const store = configureStore({
   reducer: {
@@ -30,6 +8,3 @@ export const store = configureStore({
     filter: filterSlice.reducer,
   },
 });
-
-export const { addContact, deleteContact } = contactsSlice.actions;
-export const { renderFilter } = filterSlice.actions;
