@@ -15,15 +15,16 @@ import {
   REGISTER,
 } from 'redux-persist';
 
-const persistConfig = {
-  key: 'root',
-  storage,
-};
-
 const rootReducer = combineReducers({
   contacts: contactsSlice.reducer,
   filter: filterSlice.reducer,
 });
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['contacts'],
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
